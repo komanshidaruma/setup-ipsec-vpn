@@ -14,3 +14,12 @@ address 192.168.11.15
 netmask 255.255.255.0
 gateway 192.168.11.1
 dns-nameservers 192.168.11.1
+
+# need to change router ip transfer setting
+# example
+192.168.11.15 -> 192.168.42.0
+192.168.11.15 -> 192.168.43.0
+
+# need to open port for vpn & ssh
+tcp 22 or changed number(ssh)
+udp 500,4500(vpn)
