@@ -1,0 +1,16 @@
+# 
+wget https://raw.githubusercontent.com/komanshidaruma/setup-ipsec-vpn/master/vpnsetup.sh
+
+# change port number for ssh
+sudo vi /etc/ssh/sshd_config
+
+# fix ip addr 
+sudo vi /etc/network/interfaces
+
+# example
+#iface enp0s3 inet dhcp
+iface enp0s3 inet static
+address 192.168.11.15
+netmask 255.255.255.0
+gateway 192.168.11.1
+dns-nameservers 192.168.11.1
