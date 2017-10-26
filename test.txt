@@ -23,3 +23,8 @@ dns-nameservers 192.168.11.1
 # need to open port for vpn & ssh
 tcp 22 or changed number(ssh)
 udp 500,4500(vpn)
+
+# comment out needed if 32bit
+sudo vi /etc/sysctl.conf
+#kernel.shmmax = 68719476736
+#kernel.shmall = 4294967296
