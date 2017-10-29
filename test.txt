@@ -28,3 +28,8 @@ udp 500,4500(vpn)
 sudo vi /etc/sysctl.conf
 #kernel.shmmax = 68719476736
 #kernel.shmall = 4294967296
+
+# laptop desplay closed behavior change
+sudo vi /etc/systemd/logind.conf
+HandleLidSwitch=ignore
+sudo systemctl restart systemd-logind
