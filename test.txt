@@ -17,8 +17,8 @@ dns-nameservers 192.168.11.1
 
 # need to change router ip transfer setting
 # example
-192.168.11.15 -> 192.168.42.0
-192.168.11.15 -> 192.168.43.0
+192.168.11.14 -> 192.168.42.0
+192.168.11.14 -> 192.168.43.0
 
 # need to open port for vpn & ssh
 tcp 22 or changed number(ssh)
@@ -33,3 +33,25 @@ sudo systemctl restart systemd-logind
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java8-installer
+
+######################################
+
+sudo apt-get update
+sudo apt-get install openvpn
+
+# /etc/iptables.rules is not needed to be updated if you install openvpn before L2TP/IPsec
+cd /
+sudo tar xvf /home/test/test.tar
+
+sudo systemctl start openvpn@server
+sudo systemctl enable openvpn@server
+
+
+sudo ufw allow 443/tcp
+sudo ufw disable
+sudo ufw enable
+
+
+# need to change router ip transfer setting
+# example
+192.168.11.14 -> 10.8.0.0
