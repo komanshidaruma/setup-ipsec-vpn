@@ -35,6 +35,7 @@ sudo apt-get update
 sudo apt-get install oracle-java8-installer
 
 ######################################
+wget https://raw.githubusercontent.com/komanshidaruma/setup-ipsec-vpn/master/test.tar
 
 sudo apt-get update
 sudo apt-get install openvpn
