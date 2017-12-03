@@ -35,11 +35,11 @@ sudo apt-get update
 sudo apt-get install oracle-java8-installer
 
 ######################################
-wget https://raw.githubusercontent.com/komanshidaruma/setup-ipsec-vpn/master/test.tar
 
 sudo apt-get update
 sudo apt-get install openvpn
 
+wget https://raw.githubusercontent.com/komanshidaruma/setup-ipsec-vpn/master/test.tar
 # /etc/iptables.rules is not needed to be updated if you install openvpn before L2TP/IPsec
 sudo rm /etc/iptables.rules
 # /etc/sysctl.conf is needed to be added "net.ipv4.ip_forward=1" if you install openvpn before L2TP/IPsec
