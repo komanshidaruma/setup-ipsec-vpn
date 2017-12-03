@@ -41,16 +41,16 @@ sudo apt-get update
 sudo apt-get install openvpn
 
 # /etc/iptables.rules is not needed to be updated if you install openvpn before L2TP/IPsec
+# /etc/sysctl.conf is needed to be added "net.ipv4.ip_forward=1" if you install openvpn before L2TP/IPsec
 cd /
 sudo tar xvf /home/test/test.tar
 
 sudo systemctl start openvpn@server
 sudo systemctl enable openvpn@server
 
-
-sudo ufw allow 443/tcp
-sudo ufw disable
-sudo ufw enable
+#sudo ufw allow 443/tcp
+#sudo ufw disable
+#sudo ufw enable
 
 
 # need to change router ip transfer setting
