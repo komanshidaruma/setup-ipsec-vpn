@@ -71,7 +71,7 @@ sudo mv ~/etc/openvpn/server.conf /etc/openvpn/server.conf
 sudo mv ~/etc/iptables.rules /etc/iptables.rules
 sudo mv ~/etc/default/ufw /etc/default/ufw
 sudo mv ~/etc/ssh/sshd_config /etc/ssh/sshd_config
-rm -rf ~/etc
+sudo rm -rf ~/etc
 rm test.tar
 
 sudo ufw reset
