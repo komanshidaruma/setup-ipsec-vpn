@@ -37,7 +37,7 @@ sudo apt-get install oracle-java8-installer
 ######################################
 
 ### SUMMARY
-# you must put
+# you must put followings
 /etc/openvpn/ca.crt
 /etc/openvpn/server.crt
 /etc/openvpn/server.key
@@ -55,7 +55,7 @@ sudo apt-get install oracle-java8-installer
 ### BACK UP ALL FILES
 sudo tar cf test.tar /etc/iptables.rules /etc/openvpn/ca.crt /etc/openvpn/server.crt /etc/openvpn/server.key /etc/openvpn/ta.key /etc/openvpn/dh2048.pem /etc/openvpn/server.conf /etc/ufw/before.rules /etc/default/ufw /etc/ssh/sshd_config
 
-### NEED TO DO IN ADVANCE
+### NEED TO DO FOLLOWINGS IN ADVANCE
 sudo apt-get update
 sudo apt-get install openvpn
 
@@ -74,7 +74,7 @@ sudo mv ~/etc/ssh/sshd_config /etc/ssh/sshd_config
 sudo rm -rf ~/etc
 rm test.tar
 
-# not need to change ufw, you mush reset it
+# not need to change ufw, you must reset it
 sudo ufw reset
 
 # need to change router ip transfer setting
