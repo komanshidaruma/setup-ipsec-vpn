@@ -36,23 +36,45 @@ sudo apt-get install oracle-java8-installer
 
 ######################################
 
+### SUMMARY
+# you must put
+/etc/openvpn/ca.crt
+/etc/openvpn/server.crt
+/etc/openvpn/server.key
+/etc/openvpn/ta.key
+/etc/openvpn/dh2048.pem
+/etc/openvpn/server.conf
+# need to change(via vpnsetup.sh)
+/etc/iptables.rules
+# no need to change
+/etc/ufw/before.rules
+/etc/default/ufw
+# optional
+/etc/ssh/sshd_config
+
+### BACK UP ALL FILES
+sudo tar cf test.tar /etc/iptables.rules /etc/openvpn/ca.crt /etc/openvpn/server.crt /etc/openvpn/server.key /etc/openvpn/ta.key /etc/openvpn/dh2048.pem /etc/openvpn/server.conf /etc/ufw/before.rules /etc/default/ufw /etc/ssh/sshd_config
+
+### NEED TO DO IN ADVANCE
 sudo apt-get update
 sudo apt-get install openvpn
 
+### RESTORE ALL FILES AND CONFIGS
 wget https://raw.githubusercontent.com/komanshidaruma/setup-ipsec-vpn/master/test.tar
-# /etc/iptables.rules is not needed to be updated if you install openvpn before L2TP/IPsec
-sudo rm /etc/iptables.rules
-# /etc/sysctl.conf is needed to be added "net.ipv4.ip_forward=1" if you install openvpn before L2TP/IPsec
-cd /
-sudo tar xvf /home/test/test.tar
+sudo tar xvf test.tar
+sudo mv ~/etc/openvpn/ca.crt /etc/openvpn/ca.crt
+sudo mv ~/etc/openvpn/server.crt /etc/openvpn/server.crt
+sudo mv ~/etc/openvpn/server.key /etc/openvpn/server.key
+sudo mv ~/etc/openvpn/ta.key /etc/openvpn/ta.key
+sudo mv ~/etc/openvpn/dh2048.pem /etc/openvpn/dh2048.pem
+sudo mv ~/etc/openvpn/server.conf /etc/openvpn/server.conf
+sudo mv ~/etc/iptables.rules /etc/iptables.rules
+sudo mv ~/etc/default/ufw /etc/default/ufw
+sudo mv ~/etc/ssh/sshd_config /etc/ssh/sshd_config
+rm -rf ~/etc
+rm test.tar
 
-#sudo systemctl start openvpn@server
-#sudo systemctl enable openvpn@server
-
-#sudo ufw allow 443/tcp
-#sudo ufw disable
-#sudo ufw enable
-
+sudo ufw reset
 
 # need to change router ip transfer setting
 # example
