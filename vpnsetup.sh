@@ -170,6 +170,10 @@ apt-get -yq install libnss3-dev libnspr4-dev pkg-config \
   libpam0g-dev libcap-ng-dev libcap-ng-utils libselinux1-dev \
   libcurl4-nss-dev flex bison gcc make libnss3-tools \
   libevent-dev ppp xl2tpd || exiterr2
+  
+bigecho "Installing OpenVPN..."
+
+apt-get -yq install openvpn || exiterr2
 
 bigecho "Installing Fail2Ban to protect SSH..."
 
@@ -213,6 +217,7 @@ L2TP_LOCAL=${VPN_L2TP_LOCAL:-'192.168.42.1'}
 L2TP_POOL=${VPN_L2TP_POOL:-'192.168.42.10-192.168.42.250'}
 XAUTH_NET=${VPN_XAUTH_NET:-'192.168.43.0/24'}
 XAUTH_POOL=${VPN_XAUTH_POOL:-'192.168.43.10-192.168.43.250'}
+OPENVPN_NET=${VPN_OPENVPN_NET:-'10.8.0.0/24'}
 DNS_SRV1=${VPN_DNS_SRV1:-'8.8.8.8'}
 DNS_SRV2=${VPN_DNS_SRV2:-'8.8.4.4'}
 
@@ -382,20 +387,21 @@ if [ "$ipt_flag" = "1" ]; then
   iptables -I INPUT 2 -m conntrack --ctstate INVALID -j DROP
   iptables -I INPUT 3 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
   iptables -I INPUT 4 -p udp -m multiport --dports 500,4500 -j ACCEPT
-  iptables -I INPUT 5 -p udp --dport 1701 -m policy --dir in --pol ipsec -j ACCEPT
-  iptables -I INPUT 6 -p udp --dport 1701 -j DROP
+  iptables -I INPUT 5 -p tcp --dport 443 -j ACCEPT
+  iptables -I INPUT 6 -p udp --dport 1701 -m policy --dir in --pol ipsec -j ACCEPT
+  iptables -I INPUT 7 -p udp --dport 1701 -j DROP
   iptables -I FORWARD 1 -m conntrack --ctstate INVALID -j DROP
-  iptables -I FORWARD 2 -i "$net_iface" -o ppp+ -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+  iptables -I FORWARD 2 -i "$net_iface" -o ppp+ -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
   iptables -I FORWARD 3 -i ppp+ -o "$net_iface" -j ACCEPT
   iptables -I FORWARD 4 -i ppp+ -o ppp+ -s "$L2TP_NET" -d "$L2TP_NET" -j ACCEPT
   iptables -I FORWARD 5 -i "$net_iface" -d "$XAUTH_NET" -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
   iptables -I FORWARD 6 -s "$XAUTH_NET" -o "$net_iface" -j ACCEPT
-  # Uncomment if you wish to disallow traffic between VPN clients themselves
-  # iptables -I FORWARD 2 -i ppp+ -o ppp+ -s "$L2TP_NET" -d "$L2TP_NET" -j DROP
-  # iptables -I FORWARD 3 -s "$XAUTH_NET" -d "$XAUTH_NET" -j DROP
-  iptables -A FORWARD -j DROP
+  iptables -I FORWARD 7 -i "$net_iface" -d "$OPENVPN_NET" -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+  iptables -I FORWARD 8 -s "$OPENVPN_NET" -o "$net_iface" -j ACCEPT
+  iptables -I FORWARD 9 -j DROP
   iptables -t nat -I POSTROUTING -s "$XAUTH_NET" -o "$net_iface" -m policy --dir out --pol none -j MASQUERADE
   iptables -t nat -I POSTROUTING -s "$L2TP_NET" -o "$net_iface" -j MASQUERADE
+  iptables -t nat -I POSTROUTING -s "$OPENVPN_NET" -o "$net_iface" -j MASQUERADE
   echo "# Modified by hwdsl2 VPN script" > "$IPT_FILE"
   iptables-save >> "$IPT_FILE"
 
