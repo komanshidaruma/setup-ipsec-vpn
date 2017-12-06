@@ -74,6 +74,7 @@ sudo mv ~/etc/ssh/sshd_config /etc/ssh/sshd_config
 sudo rm -rf ~/etc
 rm test.tar
 
+# not need to change ufw, you mush reset it
 sudo ufw reset
 
 # need to change router ip transfer setting
