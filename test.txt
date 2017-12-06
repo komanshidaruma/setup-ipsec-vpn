@@ -80,3 +80,7 @@ sudo ufw reset
 # need to change router ip transfer setting
 # example
 192.168.11.14 -> 10.8.0.0
+
+# need to open port for openvpn
+# example
+tcp 443
