@@ -387,7 +387,7 @@ if [ "$ipt_flag" = "1" ]; then
   iptables -I INPUT 6 -p udp --dport 1701 -m policy --dir in --pol ipsec -j ACCEPT
   iptables -I INPUT 7 -p udp --dport 1701 -j DROP
   iptables -I FORWARD 1 -m conntrack --ctstate INVALID -j DROP
-  iptables -I FORWARD 2 -i "$net_iface" -o ppp+ -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+  iptables -I FORWARD 2 -i "$net_iface" -o ppp+ -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
   iptables -I FORWARD 3 -i ppp+ -o "$net_iface" -j ACCEPT
   iptables -I FORWARD 4 -i ppp+ -o ppp+ -s "$L2TP_NET" -d "$L2TP_NET" -j ACCEPT
   iptables -I FORWARD 5 -i "$net_iface" -d "$XAUTH_NET" -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
